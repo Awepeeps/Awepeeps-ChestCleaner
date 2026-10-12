@@ -42,6 +42,8 @@ public class ChestCleaner extends JavaPlugin {
 		String bundleName = getName() + "_" + version;
 		getPlugin(this.getClass()).saveResource(bundleName + "_en_GB.properties", false);
 		getPlugin(this.getClass()).saveResource(bundleName + "_de_DE.properties", false);
+		getPlugin(this.getClass()).saveResource(bundleName + "_ja_JP.properties", false);
+		getPlugin(this.getClass()).saveResource(bundleName + "_zh_CN.properties", false);
 
 		try {
 			URL fileUrl = new File(this.getDataFolder().toString()).toURI().toURL();
