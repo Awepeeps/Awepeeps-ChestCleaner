@@ -11,6 +11,16 @@ docker run --rm \
   -v "$ROOT:/workspace" \
   -w /workspace \
   "$IMAGE" \
-  mvn --batch-mode --no-transfer-progress clean verify
+  sh -ec '
+    build_dir="$(mktemp -d /tmp/chestcleaner-build.XXXXXX)"
+    trap "rm -rf -- $build_dir" EXIT
+    cp -R /workspace/. "$build_dir/"
+    find "$build_dir" -type d -exec chmod 0755 {} +
+    find "$build_dir" -type f -exec chmod 0644 {} +
+    cd "$build_dir"
+    mvn --batch-mode --no-transfer-progress clean verify
+    mkdir -p /workspace/target
+    cp target/chestcleaner-2.4.5-awepeeps.1.jar /workspace/target/
+  '
 
 printf 'Built %s\n' "$ROOT/target/chestcleaner-2.4.5-awepeeps.1.jar"
