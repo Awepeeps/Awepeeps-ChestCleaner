@@ -29,10 +29,10 @@ public class ChestCleaner extends JavaPlugin {
 	public static ChestCleaner main;
 	private ResourceBundle rb;
 	private Locale locale;
-	
+
 	@Override
 	public void onEnable() {
-		main = this;		
+		main = this;
 		ConfigurationSerialization.registerClass(WordCategory.class);
 		ConfigurationSerialization.registerClass(ListCategory.class);
 		ConfigurationSerialization.registerClass(MasterCategory.class);

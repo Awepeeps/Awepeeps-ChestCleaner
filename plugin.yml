@@ -1,5 +1,5 @@
 name: ChestCleaner
-version: "2.4.3"
+version: "2.4.5-awepeeps.1"
 author: Tom2208, leanNiki
 api-version: "1.13" # we need this otherwise new blocks e.g. mossy cobble slabs get deleted
 
@@ -104,7 +104,7 @@ permissions:
     children:
       chestcleaner.cmd.cleaninventory.sort: true
       chestcleaner.cmd.cleaninventory.own: true
-      chestcleaner.cmd.cleaninventory.others: true  
+      chestcleaner.cmd.cleaninventory.others: true
   chestcleaner.cmd.admin.*:
     description: allow all changes to the defaults
     children:

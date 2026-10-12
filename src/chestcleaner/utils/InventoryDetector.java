@@ -17,7 +17,7 @@ public class InventoryDetector {
 	 * will return {@code null}.</b> This method checks if the object of the block
 	 * is an instance of the class org.bukkit.block.Container and returns its
 	 * inventory.
-	 * 
+	 *
 	 * @param b The Block you want to get the inventory form.
 	 * @return Returns the inventory of the container of the block, if its has no
 	 *         container it returns {@code null}.
@@ -36,13 +36,13 @@ public class InventoryDetector {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * <b>Returns the inventory of the block on the location {@code location} in the
 	 * world {@code world}. If the block has no inventory it will return
 	 * {@code null}.</b> This method checks if the object of the block is an
 	 * instance of the class org.bukkit.block.Container and returns its inventory.
-	 * 
+	 *
 	 * @param location The location of the block you want to get the inventory from.
 	 * @param world    The world of the block you want to get the inventory form.
 	 * @return Returns the inventory of the container of the block, if its has no
@@ -57,8 +57,8 @@ public class InventoryDetector {
 	 * ItemStacks form the slots with the index 9 (including) to index 35
 	 * (including).</b>That means the hotbar, armor slots or second hand slot are
 	 * getting avoided.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param p The owner of the inventory.
 	 * @return A list of all items form the inventory of {@code p} (form index 9
 	 *         (including) to index 35 (including))

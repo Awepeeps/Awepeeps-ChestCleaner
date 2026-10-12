@@ -10,9 +10,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.EventPriority;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,10 +21,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import chestcleaner.config.PlayerDataManager;
 import chestcleaner.config.PluginConfigManager;
 import chestcleaner.sorting.InventorySorter;
-import chestcleaner.utils.BlockDetector;
 import chestcleaner.utils.InventoryDetector;
 import chestcleaner.utils.PluginPermissions;
 import chestcleaner.utils.SortingUtils;
+import chestcleaner.utils.StorageSafety;
 import chestcleaner.utils.messages.MessageSystem;
 
 /**
@@ -32,55 +33,54 @@ import chestcleaner.utils.messages.MessageSystem;
 public class SortingListener implements org.bukkit.event.Listener {
 
     private String[] usableAnimalInventories = {"CraftMule", "CraftLlama", "CraftHorse"};
-    private InventoryType[] invTypeWhiteList = {InventoryType.CHEST, InventoryType.ENDER_CHEST, InventoryType.BARREL, InventoryType.SHULKER_BOX, InventoryType.PLAYER, InventoryType.CREATIVE,
-            InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.HOPPER};
+    private InventoryType[] getInventoryTypeWhiteList() {
+        return new InventoryType[] {InventoryType.CHEST, InventoryType.ENDER_CHEST, InventoryType.BARREL, InventoryType.SHULKER_BOX, InventoryType.PLAYER, InventoryType.CREATIVE,
+                InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.HOPPER};
+    }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = false)
     private void onRightClick(PlayerInteractEvent e) {
 
         Player player = e.getPlayer();
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (PluginConfigManager.isCleaningItemActive() && isPlayerHoldingACleaningItem(player)) {
+            if (PluginConfigManager.isCleaningItemActive()) {
+                boolean mainHandHasBrush = isPlayerHoldingCleaningItemInMainHand(player);
+                boolean offHandHasBrush = isPlayerHoldingCleaningItemInOffHand(player);
+                if (!CleaningItemClickPolicy.isMatchingHand(e.getHand(), mainHandHasBrush, offHandHasBrush)) return;
 
-                if (isPlayerAllowedToCleanOwnInv(player) && SortingUtils.sortPlayerInvWithEffects(player)) {
-                    damageItem(player);
-                    e.setCancelled(true);
+                Block clickedBlock = e.getClickedBlock();
+                boolean sneakStorageClick = CleaningItemClickPolicy.isSneakStorageClick(
+                        e.getAction(), player.isSneaking(), isStorageBlock(clickedBlock));
 
-                } else if (!PluginConfigManager.isOpenEvent()
-                        && !CMRegistry.isOnCooldown(CMRegistry.CMIdentifier.SORTING, player)
-                        && player.hasPermission(PluginPermissions.CLEANING_ITEM_USE.getString())) {
+                if (sneakStorageClick) {
+                    // Do not turn a denied/locked container interaction into a personal inventory sort.
+                    if (CleaningItemClickPolicy.isDeniedInteraction(e)) return;
+                    if (StorageSafety.isLocked(clickedBlock)) return;
+                    if (!player.hasPermission(PluginPermissions.CLEANING_ITEM_USE.getString())) return;
+                    if (CMRegistry.isOnCooldown(CMRegistry.CMIdentifier.SORTING, player)) return;
+                    if (PluginConfigManager.getBlacklistInventory().contains(clickedBlock.getType())) return;
 
-                    Block b = BlockDetector.getTargetBlock(player);
-
-                    if ((!InventoryDetector.hasInventoryHolder(b))
-                            || PluginConfigManager.getBlacklistInventory().contains(b.getType()))
-                    return;
-
-                    if (InventorySorter.sortPlayerBlock(b, player)) {
+                    if (InventorySorter.sortPlayerBlock(clickedBlock, player)) {
                         damageItem(player);
                         InventorySorter.playSortingSound(player);
                         MessageSystem.sendSortedMessage(player);
                         e.setCancelled(true);
                     }
+                    return;
+                }
+
+                if (isPlayerAllowedToCleanOwnInv(player) && SortingUtils.sortPlayerInvWithEffects(player)) {
+                    damageItem(player);
+                    e.setCancelled(true);
                 }
             }
         }
     }
 
-    @EventHandler
-    private void onOpenInventory(InventoryOpenEvent e) {
-
-        if (PluginConfigManager.isCleaningItemActive() && PluginConfigManager.isOpenEvent()) {
-
-            Player player = (Player) e.getPlayer();
-
-            if (player.hasPermission(PluginPermissions.CLEANING_ITEM_USE.getString())
-                    && isPlayerHoldingACleaningItem(player) && SortingUtils.sortInventoryWithEffects(e.getInventory(), player)) {
-                damageItem(player);
-                e.setCancelled(true);
-            }
-        }
+    private boolean isStorageBlock(Block block) {
+        return block != null && (InventoryDetector.hasInventoryHolder(block)
+                || block.getType() == Material.ENDER_CHEST);
     }
 
     @EventHandler
@@ -121,7 +121,7 @@ public class SortingListener implements org.bukkit.event.Listener {
     private void sortInventoryOnClick(Player player, InventoryClickEvent e) {
 
         boolean flag = false;
-        for (InventoryType type : invTypeWhiteList) {
+        for (InventoryType type : getInventoryTypeWhiteList()) {
             if (e.getInventory().getType().equals(type)) {
                 flag = true;
                 break;
@@ -144,10 +144,6 @@ public class SortingListener implements org.bukkit.event.Listener {
             SortingUtils.sortInventoryWithEffects(e.getInventory(), player);
         }
 
-    }
-
-    private boolean isPlayerHoldingACleaningItem(Player player) {
-        return isPlayerHoldingCleaningItemInMainHand(player) || isPlayerHoldingCleaningItemInOffHand(player);
     }
 
     private ItemStack getComparableItem(ItemStack item) {
