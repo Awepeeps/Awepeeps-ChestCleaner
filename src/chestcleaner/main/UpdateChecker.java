@@ -26,10 +26,10 @@ public class UpdateChecker {
 	private final JavaPlugin javaPlugin;
 	private final String localPluginVersion;
 	private String spigotPluginVersion;
-	
+
 	private static final int ID = 40313;
 	private static final long CHECK_INTERVAL = 12_000; // In ticks.
-	
+
 	public UpdateChecker(final JavaPlugin javaPlugin) {
 		this.javaPlugin = javaPlugin;
 		this.localPluginVersion = javaPlugin.getDescription().getVersion();

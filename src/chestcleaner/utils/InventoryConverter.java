@@ -16,7 +16,7 @@ public class InventoryConverter {
 	/**
 	 * <b>Converts an inventory into a ArrayList of ItemStacks and returns it.</b>
 	 * Air will get removed.
-	 * 
+	 *
 	 * @param inv The inventory you want to convert into an ArrayList.
 	 * @return Returns an ArrayList of ItemStacks you got from the inventory. If the
 	 *         Inventory is null it returns null.
@@ -43,7 +43,7 @@ public class InventoryConverter {
 	 * <b>Sets the items of the {@code inventory} to the ItemStacks of the ArrayList
 	 * {@code items}.</b> The method clears the inventory before putting the items
 	 * into the inventory.
-	 * 
+	 *
 	 * @param inv      The inventory you want to put the items in.
 	 * @param items    The list of items you want to put into the cleared inventory.
 	 * @throws IllegalArgumentException throws if the argument ItemStack

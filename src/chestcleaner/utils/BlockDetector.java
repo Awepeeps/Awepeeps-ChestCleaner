@@ -15,7 +15,7 @@ public class BlockDetector implements Listener {
 
 	/**
 	 * Return the first Block the vector of view hits. This method ignores air.
-	 * 
+	 *
 	 * @param player The player you want to get the view vector from.
 	 * @param range  The range you want to search for a non-air block.
 	 * @return Returns the block the player is looking at, if there is no in range
@@ -40,7 +40,7 @@ public class BlockDetector implements Listener {
 
 	/**
 	 * Returns the Block at the Location {@code loc}.
-	 * 
+	 *
 	 * @param loc The Location of the block.
 	 * @return Returns the Block at the Location {@code loc}.
 	 */

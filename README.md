@@ -1,37 +1,25 @@
-Wiki for 2.4.0: [Wiki File](https://github.com/tom2208/ChestCleaner/blob/v2.4.0/wiki.md)
-
-# ATTENTION
-when migrating to version 2.x. A lot of things have changed, that is why it is a new major version. Read the [Migration Guide](https://github.com/tom2208/ChestCleaner/wiki/Migration-Guide-2.0) **BEFORE** upgrading. If you are not upgrading, but installing this plugin for the first time, you can disregard this.
-
 # ChestCleaner
 
-ChestCleaner is a Minecraft Spigot plugin that sorts your chests and inventories. Additionally it autorefills your items in the hotbar.
+ChestCleaner sorts storage inventories and player inventories with the configured cleaning item. This repository is a maintained standalone fork of [tom2208/ChestCleaner](https://github.com/tom2208/ChestCleaner), based on upstream tag `v2.4.4` (`131a11f7f64b3114218fb1141bceeb8197354c6e`).
 
-The used Spigot API version `1.18-R0.1-SNAPSHOT`
+## Cleaning item behavior
 
-For more detailed information have a look at the Spigot article of this plugin: https://www.spigotmc.org/resources/chestcleaner-sorting-plugin.40313/
+- Right-click a container normally to open it. The brush does not sort it.
+- Sneak and right-click a container to sort that container. A successful sort consumes one configured durability use and cancels the open interaction.
+- Sneak and right-click air or a non-container block to sort your own inventory when you have `chestcleaner.cleaningitem.use.owninventory`.
+- A cancelled/protected block interaction, a locked container, a blacklisted container, missing permission, or active cooldown prevents container sorting and does not fall through to sorting the player's inventory.
+- Sorting continues to raise the existing `SortingEvent`, so other plugins can cancel it. The existing inventory sorting algorithm and patterns are retained.
 
-Also check out the [Github wiki of this repository](https://github.com/tom2208/ChestCleaner/wiki).
+`cleaningItem.openEvent` remains in the config and command interface for compatibility with existing configs, but it is ignored by this fork. Normal container opens always pass through unsorted, and sneak-right-click sorting works regardless of the old value. Auto-sort-on-close remains controlled by the existing player setting.
 
-For questions and discussions join the [Discord chat](https://discord.gg/4AeApQ5).
+The plugin name, data folder (`ChestCleaner`), command names, permission nodes, and existing config keys are retained. The bundled `updateMessage` setting defaults to `false`; enabling it makes the upstream optional update checker request the public SpigotMC version endpoint for resource 40313. That request does not use authentication. Upstream I/O failures print a Java stack trace to the server log.
 
----
+## Build
 
-## Maven
+Run `automation/build-chestcleaner.sh` from this repository. It uses the same digest-pinned Maven 3.9.9 / Eclipse Temurin 21 container as Awepeeps-Navigator and runs `mvn --batch-mode --no-transfer-progress clean verify`. The Maven plugin and test dependency versions are pinned in `pom.xml`; the plugin compiles against the Spigot 1.18 API snapshot.
 
-Installing Maven: https://maven.apache.org/install.html
+The reproducible plugin artifact is `target/chestcleaner-2.4.5-awepeeps.1.jar`.
 
-With **mvn -version** you can check if you already installed maven.
+## Upstream credits and license
 
-### Usage
-
-Building with maven:
-If you are using CLI move in to your repository using `cd` (Windows, Mac and Linux).
-
-`mvn package` or: `mvn package -e` 
-
-The latter command logs the stacktrace but has no effect on the build.
-
-On success the maven shows you the path to your jar.
-
-For more information look into this [tutorial](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
+ChestCleaner was created by Tom Hauschild (`tom2208`) with contributions from `leanNiki`. This fork retains the upstream GNU General Public License version 3.0; see [LICENSE](LICENSE). Upstream history and the original documentation are available at the repository linked above.

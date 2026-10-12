@@ -193,7 +193,7 @@ public class RefillListener implements org.bukkit.event.Listener {
 
 	/**
 	 * Returns the index of a refill stack if it gets found, if not it returns -1.
-	 * 
+	 *
 	 * @param material the material of the stack you want to find.
 	 * @param player        the owner of the inventory.
 	 * @return the index of the item in the inventory if it got found otherwise -1.
@@ -219,7 +219,7 @@ public class RefillListener implements org.bukkit.event.Listener {
 	/**
 	 * If the player is in survival mode and has the permission
 	 * PluginPermissions.AUTOFILL_BROKEN_ITEMS it returns true otherwise false.
-	 * 
+	 *
 	 * @param player the player you want to check.
 	 * @return true if the player is allowed to auto refill broken items otherwise
 	 *         false.
@@ -232,7 +232,7 @@ public class RefillListener implements org.bukkit.event.Listener {
 	/**
 	 * If the player is in survival mode and has the permission
 	 * PluginPermissions.AUTOFILL_CONSUMABLES it returns true otherwise false.
-	 * 
+	 *
 	 * @param player the player you want to check.
 	 * @return true if the player is allowed to auto refill otherwise false.
 	 */
@@ -244,7 +244,7 @@ public class RefillListener implements org.bukkit.event.Listener {
 	/**
 	 * If the player is in survival mode and has the permission
 	 * PluginPermissions.AUTOFILL_CONSUMABLES it returns true otherwise false.
-	 * 
+	 *
 	 * @param player the player you want to check.
 	 * @return true if the player is allowed to auto refill otherwise false.
 	 */
@@ -255,7 +255,7 @@ public class RefillListener implements org.bukkit.event.Listener {
 
 	/**
 	 * Returns true if the player has a item in his main hand.
-	 * 
+	 *
 	 * @param player the player you want to check.
 	 * @return true if the player holds an item in his main hand otherwise false.
 	 */
@@ -265,7 +265,7 @@ public class RefillListener implements org.bukkit.event.Listener {
 
 	/**
 	 * Returns true if the player has a item in his off hand.
-	 * 
+	 *
 	 * @param player the player you want to check.
 	 * @return true if the player holds an item in his off hand otherwise false.
 	 */
@@ -276,7 +276,7 @@ public class RefillListener implements org.bukkit.event.Listener {
 	/**
 	 * If the Material of the {@code item} is equal to the material in the held item
 	 * slot (main hand) it returns true otherwise false.
-	 * 
+	 *
 	 * @param item   the item which material you want to compare.
 	 * @param player the player owning the held item slot (main hand).
 	 * @return true if the materials are equal otherwise false.
@@ -288,7 +288,7 @@ public class RefillListener implements org.bukkit.event.Listener {
 	/**
 	 * If the Material of the {@code item} is equal to the material in the off hand
 	 * it returns true otherwise false.
-	 * 
+	 *
 	 * @param item   the item which material you want to compare.
 	 * @param player the player owning the off hand.
 	 * @return true if the materials are equal otherwise false.

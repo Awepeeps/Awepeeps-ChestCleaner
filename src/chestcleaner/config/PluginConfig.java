@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * This is a singleton class to combine all configs and their utility methods
  * for this project.
- * 
+ *
  * @author Tom2208
  *
  */
@@ -55,7 +55,7 @@ public class PluginConfig {
 
 		ChestCleaner.main.saveConfig();
 	}
-	
+
 	public static FileConfiguration getConfig() {
 		return ChestCleaner.main.getConfig();
 	}
@@ -64,16 +64,16 @@ public class PluginConfig {
 		ChestCleaner.main.getConfig().set(path.getPath(), obj);
 		ChestCleaner.main.saveConfig();
 	}
-	
+
 	public static void setIntoConfig(String path, Object obj) {
 		ChestCleaner.main.getConfig().set(path, obj);
 		ChestCleaner.main.saveConfig();
 	}
-	
+
 	public static void removeFormConfig() {
-		
+
 	}
-	
+
 	public static FileConfiguration getPlayerData() {
 		return getInstance().playerDataConfig;
 	}
@@ -87,7 +87,7 @@ public class PluginConfig {
 	 * Saves this {@code FileConfiguration} to the the ChestCleaner folder. If the
 	 * file does not exist, it will be created. If it already exists, it will be
 	 * overwritten.
-	 * 
+	 *
 	 * This method will save using the system default encoding, or possibly using
 	 * UTF8.
 	 *
@@ -112,7 +112,7 @@ public class PluginConfig {
 
 	/**
 	 * Returns the instance of this singleton if it's null it creates one.
-	 * 
+	 *
 	 * @return The Instance of the singleton.
 	 */
 	public static PluginConfig getInstance() {
@@ -150,7 +150,7 @@ public class PluginConfig {
 		DEFAULT_SORTING_SOUND_VOLUME("default.sorting.sound.volume"),
 		DEFAULT_SORTING_SOUND_PITCH("default.sorting.sound.pitch"),
 		DEFAULT_BREAKABLE_ITEMS_REFILL("default.refill.breakables");
-		
+
 		private String path;
 
 		ConfigPath(String path) {

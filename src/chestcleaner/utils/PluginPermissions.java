@@ -10,7 +10,7 @@ public enum PluginPermissions {
     COOLDOWN_IMMUNE("chestcleaner.cooldown.immune"),
     UPDATE_PLUGIN("chestcleaner.update"),
     CLICK_SORT("chestcleaner.clicksort"),
-    
+
     CMD_SORTING_CONFIG_CATEGORIES("chestcleaner.cmd.sortingconfig.categories"),
     CMD_SORTING_CONFIG_CATEGORIES_RESET("chestcleaner.cmd.sortingconfig.categories.reset"),
     CMD_SORTING_CONFIG_PATTERN("chestcleaner.cmd.sortingconfig.pattern"),
@@ -28,7 +28,7 @@ public enum PluginPermissions {
     CMD_INV_CLEAN("chestcleaner.cmd.cleaninventory.sort"),
     CMD_INV_CLEAN_OWN("chestcleaner.cmd.cleaninventory.own"),
     CMD_INV_CLEAN_OTHERS("chestcleaner.cmd.cleaninventory.others"),
-    
+
     CMD_ADMIN_COOLDOWN("chestcleaner.cmd.admin.cooldown"),
     CMD_ADMIN_ITEM_SET("chestcleaner.cmd.admin.cleaningitem.setitem"),
     CMD_ADMIN_ITEM_RENAME("chestcleaner.cmd.admin.cleaningitem.rename"),

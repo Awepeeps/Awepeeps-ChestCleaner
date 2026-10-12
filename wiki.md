@@ -5,7 +5,7 @@ Welcome to the ChestCleaner wiki! Here you can find tutorials and explanations f
 # Installation
 * Download the **ChestCleaner.jar** from spigot: https://www.spigotmc.org/resources/chestcleaner-sorting-plugin-api.40313/
 * Move the **ChestCleaner.jar** from your download folder into the plugin folder of your spigot server.
-* Start the server. If everything works you will see "_[ChestCleaner] Enabling ChestCleaner_"  without an error message in your console. 
+* Start the server. If everything works you will see "_[ChestCleaner] Enabling ChestCleaner_"  without an error message in your console.
 
 # FAQ
 
@@ -33,11 +33,11 @@ Use right click outside the gui (inventory) you want to sort. Make sure you enab
 # Blacklist Commands
 
 ## Description
-There are two types of blacklists: **stacking** and **inventory**. 
+There are two types of blacklists: **stacking** and **inventory**.
 
 Both blacklists contain item names and are configured the same way, however they have different meanings.
 
-**The stacking blacklist** defines items which will not get stacked together if they get sorted. For instance, usually a 32 dirt stack and a 21 dirt stack would get stacked together to a 53 dirt stack. With dirt on the stacking blacklist you preserve the two original stacks. 
+**The stacking blacklist** defines items which will not get stacked together if they get sorted. For instance, usually a 32 dirt stack and a 21 dirt stack would get stacked together to a 53 dirt stack. With dirt on the stacking blacklist you preserve the two original stacks.
 
 **The inventory blacklist** defines blocks that get ignored if you want to try sorting an inventory of a block (only works for "openEvent = false" mode). For instance, if you don't want your player to sort hoppers, then you add hopper to the inventory blacklist.
 
@@ -100,11 +100,11 @@ Only Server OPs have this permission by default.
 # CleaningItem Commands
 
 ## Description
-You can configure an Item to be used as cleaning item. When you hold that item and: 
+You can configure an Item to be used as cleaning item. When you hold that item and:
 * `right-click` on a block with an inventory, that blocks inventory will get sorted.
 * `shift + right-click`, your Inventory gets sorted.
 
-The cleaningitem is configured for the whole server. 
+The cleaningitem is configured for the whole server.
 You can select a craftable or stackable item for your cleaning item. If you do so players can craft their items themself, using sources to "pay" for the sorting, like the gold for the golden hoe.
 If you pick a stackabale item for example a gold nugget, then the item gets removed from your inventory, like you're "paying" an item, in this example a gold nugget.
 
@@ -116,12 +116,12 @@ If you pick a stackabale item for example a gold nugget, then the item gets remo
 When you change the item's name or lore, the previous cleaningitems will not work anymore. For example, first you have iron_hoe as cleaningitem. Every iron_hoe works as cleaningitem. Then you give it a name, like "mycleaningtool". Now all iron_hoes that don't have that name will not work anymore.
 
 ### Durability
-You can activate or deactivate the cleaningitem durabilityLoss using the cleaningitem durabilityLoss toggle. 
-When it is active, using the cleaningItem will reduce its durability, if it has one (eg a tool), or remove the item altogether if doesn't have durability, like paying with the item for sorting. 
+You can activate or deactivate the cleaningitem durabilityLoss using the cleaningitem durabilityLoss toggle.
+When it is active, using the cleaningItem will reduce its durability, if it has one (eg a tool), or remove the item altogether if doesn't have durability, like paying with the item for sorting.
 
 **Sorting with an stackable item (durabilityLoss=true)**
 
-![Sorting With Item](https://github.com/tom2208/ChestCleaner/blob/master/assets/gif/cleaningitem_item_sorting.gif?raw=true) 
+![Sorting With Item](https://github.com/tom2208/ChestCleaner/blob/master/assets/gif/cleaningitem_item_sorting.gif?raw=true)
 
 **Sorting with a tool (durabilityLoss=true)**
 
@@ -216,7 +216,7 @@ This commands sorts an inventory that is associated with a block (like a chest).
 # SortingAdmin Command
 
 ## Description
-ChestCleaner has server defaults for all configuration options. 
+ChestCleaner has server defaults for all configuration options.
 Players with certain permissions can overwrite some of these defaults for themself.
 These player settings will not affect the server defaults or other players.
 Following settings may be changed by players:

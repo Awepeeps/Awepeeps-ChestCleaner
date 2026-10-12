@@ -29,10 +29,10 @@ public class ChestCleaner extends JavaPlugin {
 	public static ChestCleaner main;
 	private ResourceBundle rb;
 	private Locale locale;
-	
+
 	@Override
 	public void onEnable() {
-		main = this;		
+		main = this;
 		ConfigurationSerialization.registerClass(WordCategory.class);
 		ConfigurationSerialization.registerClass(ListCategory.class);
 		ConfigurationSerialization.registerClass(MasterCategory.class);
@@ -40,8 +40,8 @@ public class ChestCleaner extends JavaPlugin {
 
 		String version = getDescription().getVersion().replace(".", "-");
 		String bundleName = getName() + "_" + version;
-		getPlugin(this.getClass()).saveResource(bundleName + "_de_DE.properties", false);
 		getPlugin(this.getClass()).saveResource(bundleName + "_en_GB.properties", false);
+		getPlugin(this.getClass()).saveResource(bundleName + "_de_DE.properties", false);
 		getPlugin(this.getClass()).saveResource(bundleName + "_ja_JP.properties", false);
 		getPlugin(this.getClass()).saveResource(bundleName + "_zh_CN.properties", false);
 

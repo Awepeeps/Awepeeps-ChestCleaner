@@ -21,7 +21,7 @@ public class StringUtils {
 		}
 		return true;
 	}
-    
+
     public static boolean isStringNotTrueOrFalse(String str) {
         return !str.equalsIgnoreCase(Boolean.TRUE.toString()) && !str.equalsIgnoreCase(Boolean.FALSE.toString());
     }

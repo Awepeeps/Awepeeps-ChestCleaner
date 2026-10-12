@@ -27,7 +27,7 @@ public class InventorySorter {
 	 * The amount of the ItemStack is increased beyond MaxStackSize, but only one ItemStack exists for each Material.
 	 * Items on the stacking blacklist dont get their ammount increased. They are simply added to the list.
 	 * So there may be multiple ItemStacks for materials on the stacking blacklist.
-	 * 
+	 *
 	 * @param items an ArrayList of ItemStacks you want to sort
 	 * @return full stacked {@code list};
 	 */
@@ -87,7 +87,7 @@ public class InventorySorter {
 
 	/**
 	 * Sorts any kind of inventory.
-	 * 
+	 *
 	 * @param inv the inventory you want to sort.
 	 */
 	public static boolean sortInventory(Inventory inv, Player p, List<ItemStack> items) {
@@ -134,7 +134,7 @@ public class InventorySorter {
 
 	/**
 	 * Checks if the block has an inventory or if it is an enderchest and sorts it.
-	 * 
+	 *
 	 * @param b Block you want to get sorted.
 	 * @param p the player or owner of an enderchest inventory.
 	 * @return returns true if an inventory got sorted, otherwise false.
@@ -163,7 +163,7 @@ public class InventorySorter {
 		}else {
 			flag = PluginConfigManager.getDefaultSortingSoundBoolean();
 		}
-		
+
 		if(flag) {
 			p.getWorld().playSound(p.getLocation(), PluginConfigManager.getDefaultSortingSound(),
 					PluginConfigManager.getDefaultVolume(), PluginConfigManager.getDefaultPitch());
