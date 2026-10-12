@@ -35,6 +35,21 @@ public class UpdateChecker {
 		this.localPluginVersion = javaPlugin.getDescription().getVersion();
 	}
 
+	/**
+	 * Starts the update checker only when the {@code updateMessage} setting is
+	 * enabled. When it is disabled this returns without scheduling anything, so
+	 * no outbound network request is made at all.
+	 *
+	 * @param javaPlugin the plugin instance
+	 * @param enabled    the parsed {@code updateMessage} configuration value
+	 */
+	public static void startIfEnabled(final JavaPlugin javaPlugin, final boolean enabled) {
+		if (!enabled) {
+			return;
+		}
+		new UpdateChecker(javaPlugin).checkForUpdate();
+	}
+
 	public void checkForUpdate() {
 		new BukkitRunnable() {
 			@Override
@@ -48,7 +63,8 @@ public class UpdateChecker {
 						spigotPluginVersion = new BufferedReader(new InputStreamReader(connection.getInputStream()))
 								.readLine();
 					} catch (final IOException e) {
-						e.printStackTrace();
+						// A failed update check must not spam the log with a stack trace.
+						javaPlugin.getLogger().warning("Update check failed: " + e.getMessage());
 						cancel();
 						return;
 					}

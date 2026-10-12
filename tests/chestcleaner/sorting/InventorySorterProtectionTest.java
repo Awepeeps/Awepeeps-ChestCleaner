@@ -27,7 +27,8 @@ class InventorySorterProtectionTest {
     void cancelledSortingEventLeavesInventoryUntouched() {
         Inventory inventory = mock(Inventory.class);
         Player player = mock(Player.class);
-        when(inventory.iterator()).thenReturn(Collections.singletonList(new ItemStack(Material.STONE)).listIterator());
+        ItemStack airItem = airItem();
+        when(inventory.iterator()).thenReturn(Collections.singletonList(airItem).listIterator());
         PluginManager pluginManager = mock(PluginManager.class);
         doAnswer(invocation -> {
             ((SortingEvent) invocation.getArgument(0)).setCancelled(true);
@@ -41,5 +42,16 @@ class InventorySorterProtectionTest {
             verify(inventory, never()).clear();
             verify(inventory, never()).setItem(org.mockito.ArgumentMatchers.anyInt(), any(ItemStack.class));
         }
+    }
+
+    /**
+     * A mocked air item that {@link chestcleaner.utils.InventoryConverter} filters
+     * out. Constructing a real {@code ItemStack} in Paper 26.3 needs the item
+     * registry, which requires a running server.
+     */
+    private static ItemStack airItem() {
+        ItemStack item = mock(ItemStack.class);
+        when(item.getType()).thenReturn(Material.AIR);
+        return item;
     }
 }

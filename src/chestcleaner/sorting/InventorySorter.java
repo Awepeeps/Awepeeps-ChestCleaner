@@ -165,7 +165,13 @@ public class InventorySorter {
 		}
 
 		if(flag) {
-			p.getWorld().playSound(p.getLocation(), PluginConfigManager.getDefaultSortingSound(),
+			Sound sound = PluginConfigManager.getDefaultSortingSound();
+			if (sound == null) {
+				// Unknown/misconfigured sound name: fail quietly instead of
+				// calling playSound with null.
+				return;
+			}
+			p.getWorld().playSound(p.getLocation(), sound,
 					PluginConfigManager.getDefaultVolume(), PluginConfigManager.getDefaultPitch());
 		}
 	}

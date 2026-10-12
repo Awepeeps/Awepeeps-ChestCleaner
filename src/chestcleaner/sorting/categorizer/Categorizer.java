@@ -1,7 +1,6 @@
 package chestcleaner.sorting.categorizer;
 
 import chestcleaner.sorting.CategorizerManager;
-import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;

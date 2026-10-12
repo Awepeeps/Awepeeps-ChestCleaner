@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-IMAGE="maven:3.9.9-eclipse-temurin-21@sha256:3a4ab3276a087bf276f79cae96b1af04f53731bec53fb2e651aca79e4b10211e"
+IMAGE="maven:3.9.16-eclipse-temurin-25@sha256:93b8a14ea2f412782e4e842651273b4d903e35cc496284f178fbbe2d67d00976"
 
 docker run --rm \
   --user "$(id -u):$(id -g)" \
@@ -20,7 +20,7 @@ docker run --rm \
     cd "$build_dir"
     mvn --batch-mode --no-transfer-progress clean verify
     mkdir -p /workspace/target
-    cp target/chestcleaner-2.4.5-awepeeps.1.jar /workspace/target/
+    cp target/chestcleaner-2.4.5-awepeeps.2.jar /workspace/target/
   '
 
-printf 'Built %s\n' "$ROOT/target/chestcleaner-2.4.5-awepeeps.1.jar"
+printf 'Built %s\n' "$ROOT/target/chestcleaner-2.4.5-awepeeps.2.jar"

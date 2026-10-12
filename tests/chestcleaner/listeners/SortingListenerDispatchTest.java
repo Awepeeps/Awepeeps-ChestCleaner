@@ -34,6 +34,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 import static org.mockito.ArgumentMatchers.anyInt;
 
 class SortingListenerDispatchTest {
@@ -143,7 +145,8 @@ class SortingListenerDispatchTest {
     @Test
     void directOffhandOnlyBrushUseSortsAndDamagesTheOffhandItem() throws Exception {
         Fixture fixture = new Fixture(true, false);
-        when(fixture.offHand.getType()).thenReturn(Material.IRON_HOE);
+        Material offHandBrushType = stubbedType(Material.IRON_HOE);
+        when(fixture.offHand.getType()).thenReturn(offHandBrushType);
         try (DispatchMocks mocks = new DispatchMocks(fixture, true, false)) {
             mocks.blockSort(fixture, true);
             PlayerInteractEvent event = fixture.event(Action.RIGHT_CLICK_BLOCK, fixture.container, EquipmentSlot.OFF_HAND);
@@ -161,7 +164,8 @@ class SortingListenerDispatchTest {
     @Test
     void mainAndOffhandEventsCannotSortOrChargeTwiceEvenWhenCooldownIsDisabled() throws Exception {
         Fixture fixture = new Fixture(true, true);
-        when(fixture.offHand.getType()).thenReturn(Material.IRON_HOE);
+        Material offHandBrushType = stubbedType(Material.IRON_HOE);
+        when(fixture.offHand.getType()).thenReturn(offHandBrushType);
         try (DispatchMocks mocks = new DispatchMocks(fixture, true, false)) {
             mocks.blockSort(fixture, true);
             PlayerInteractEvent mainHand = fixture.event(Action.RIGHT_CLICK_BLOCK, fixture.container, EquipmentSlot.HAND);
@@ -230,10 +234,16 @@ class SortingListenerDispatchTest {
         private final ItemStack comparison = mock(ItemStack.class);
         private final Damageable meta = mock(Damageable.class);
         private final Damageable comparisonMeta = mock(Damageable.class);
+        private final Material type;
         private int damage;
 
         private TestItem(Material material) {
-            when(item.getType()).thenReturn(material);
+            // Paper 26.3 makes Material#getMaxDurability() hit the item registry,
+            // which needs a running server. Air materials stay real so the
+            // production "is this air?" checks keep working; everything else is a
+            // spy with getMaxDurability() short-circuited.
+            type = material == Material.AIR ? Material.AIR : stubbedType(material);
+            when(item.getType()).thenReturn(type);
             when(item.getItemMeta()).thenReturn(meta);
             when(item.clone()).thenReturn(comparison);
             when(meta.getDamage()).thenAnswer(invocation -> damage);
@@ -241,11 +251,17 @@ class SortingListenerDispatchTest {
                 damage = invocation.getArgument(0);
                 return null;
             }).when(meta).setDamage(anyInt());
-            when(comparison.getType()).thenReturn(material);
+            when(comparison.getType()).thenReturn(type);
             when(comparison.getItemMeta()).thenReturn(comparisonMeta);
             when(comparisonMeta.getDamage()).thenReturn(0);
             when(comparison.isSimilar(org.mockito.ArgumentMatchers.any(ItemStack.class))).thenReturn(true);
         }
+    }
+
+    private static Material stubbedType(Material material) {
+        Material type = spy(material);
+        doReturn((short) 250).when(type).getMaxDurability();
+        return type;
     }
 
     private static final class DispatchMocks implements AutoCloseable {

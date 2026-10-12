@@ -1,7 +1,7 @@
 name: ChestCleaner
-version: "2.4.5-awepeeps.1"
+version: "2.4.5-awepeeps.2"
 author: Tom2208, leanNiki
-api-version: "1.13" # we need this otherwise new blocks e.g. mossy cobble slabs get deleted
+api-version: "26.3" # Paper 26.3 API level (see apiVersioning.json); also required for new blocks e.g. mossy cobble slabs
 
 main: chestcleaner.main.ChestCleaner
 
