@@ -61,9 +61,7 @@ public class ChestCleaner extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new SortingListener(), this);
 		Bukkit.getPluginManager().registerEvents(new RefillListener(), this);
 
-		if (PluginConfigManager.isUpdateCheckerActive()) {
-			new UpdateChecker(this).checkForUpdate();
-		}
+		UpdateChecker.startIfEnabled(this, PluginConfigManager.isUpdateCheckerActive());
 	}
 
 	public ResourceBundle getRB() {

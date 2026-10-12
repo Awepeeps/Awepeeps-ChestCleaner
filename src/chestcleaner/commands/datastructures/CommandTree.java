@@ -346,7 +346,7 @@ public class CommandTree extends Tree<CommandTree.Quadruple> {
         } else if (isType.test(CooldownManager.class)) {
             list = Arrays.stream(CMRegistry.CMIdentifier.values()).map(Enum::toString).collect(Collectors.toList());
         } else if (isType.test(Sound.class)){
-            list = Arrays.stream(Sound.values()).map(Enum::toString).collect(Collectors.toList());
+            list = SortingAdminUtils.getAllSoundNames();
         } else if (isType.test(CMRegistry.CMIdentifier.class)){
             list = Arrays.stream(CMRegistry.CMIdentifier.values()).map(Enum::toString).collect(Collectors.toList());
         } else if(isType.test(SortingPattern.class)){

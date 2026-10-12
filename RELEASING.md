@@ -1,6 +1,6 @@
 # Releasing
 
-The build is reproducible for a fixed toolchain (JDK 21 + pinned plugin
+The build is reproducible for a fixed toolchain (JDK 25 + pinned plugin
 versions), so the SHA-256 published by CI can be pinned with confidence.
 
 1. Bump `<version>` in `pom.xml` (and `<version.properties>`), `plugin.yml`, the

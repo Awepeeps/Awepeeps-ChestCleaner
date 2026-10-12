@@ -133,7 +133,7 @@ public class SortingAdminCommand implements CommandExecutor, TabCompleter {
                     MessageID.ERROR_SOUND_NOT_FOUND, tuple.sender, soundName);
         } else {
             MessageSystem.sendMessageToCSWithReplacement(MessageType.SUCCESS,
-                    MessageID.INFO_SORTING_SOUND_DEFAULT_SET, tuple.sender, sound.name());
+                    MessageID.INFO_SORTING_SOUND_DEFAULT_SET, tuple.sender, SortingAdminUtils.getLegacyName(sound));
             PluginConfigManager.setDefaultSortingSound(sound);
             PluginConfigManager.setDefaultVolume(volume);
             PluginConfigManager.setDefaultPitch(pitch);

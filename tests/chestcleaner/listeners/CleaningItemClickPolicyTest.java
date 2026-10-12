@@ -7,7 +7,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.Material;
 import org.bukkit.inventory.EquipmentSlot;
 import org.junit.jupiter.api.Test;
 
@@ -38,12 +37,12 @@ class CleaningItemClickPolicyTest {
         Player player = mockPlayer();
         Block block = org.mockito.Mockito.mock(Block.class);
         PlayerInteractEvent deniedBlock = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK,
-                new ItemStack(Material.IRON_HOE), block, BlockFace.UP, EquipmentSlot.HAND);
+                org.mockito.Mockito.mock(ItemStack.class), block, BlockFace.UP, EquipmentSlot.HAND);
         deniedBlock.setUseInteractedBlock(Event.Result.DENY);
         assertTrue(CleaningItemClickPolicy.isDeniedInteraction(deniedBlock));
 
         PlayerInteractEvent cancelledBlock = new PlayerInteractEvent(player, Action.RIGHT_CLICK_BLOCK,
-                new ItemStack(Material.IRON_HOE), block, BlockFace.UP, EquipmentSlot.HAND);
+                org.mockito.Mockito.mock(ItemStack.class), block, BlockFace.UP, EquipmentSlot.HAND);
         cancelledBlock.setCancelled(true);
         assertTrue(CleaningItemClickPolicy.isDeniedInteraction(cancelledBlock));
     }

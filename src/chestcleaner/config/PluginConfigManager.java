@@ -47,7 +47,7 @@ public class PluginConfigManager {
 	}
 
 	public static void setDefaultSortingSound(Sound sound){
-		PluginConfig.setIntoConfig(PluginConfig.ConfigPath.DEFAULT_SORTING_SOUND, sound.name());
+		PluginConfig.setIntoConfig(PluginConfig.ConfigPath.DEFAULT_SORTING_SOUND, SortingAdminUtils.getLegacyName(sound));
 	}
 
 	public static Sound getDefaultSortingSound(){
