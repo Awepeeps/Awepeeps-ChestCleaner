@@ -1,0 +1,41 @@
+# AGENTS.md — Awepeeps ChestCleaner
+
+Scope: this file applies to **every file in this repository**. Human overview: [README.md](README.md).
+Repeatable local build/review: [.agents/skills/awepeeps-chestcleaner-build-review/SKILL.md](.agents/skills/awepeeps-chestcleaner-build-review/SKILL.md).
+
+This is a maintained standalone fork of tom2208/ChestCleaner (GPL-3.0). Keep the upstream
+attribution and `LICENSE` intact.
+
+## Purpose and layout
+
+- Paper 26.3 / Java 25 plugin that sorts storage and player inventories with the cleaning item.
+- Sources: `src/chestcleaner/`; unit tests: `tests/chestcleaner/`.
+- Runtime resources (repository root): `plugin.yml`, `config.yml`, `ChestCleaner_*_*.properties`.
+- Reproducible build helper: `automation/build-chestcleaner.sh`. Release flow: [RELEASING.md](RELEASING.md);
+  build details: [docs/maintenance.md](docs/maintenance.md).
+
+## Build and test
+
+- Build and test: `mvn --batch-mode --no-transfer-progress clean verify` (JDK 25).
+- Reproducible containerized build: `bash automation/build-chestcleaner.sh`.
+- Output jar: `target/chestcleaner-2.4.5-awepeeps.2.jar`.
+- Open changes as a pull request against `main`; CI runs `clean verify` twice and compares the jar bytes.
+
+## Interaction policy (must be preserved)
+
+- A normal right-click opens a container **unsorted**. Sneak-right-click sorts the clicked
+  container before the player's own inventory is considered.
+- A cancelled/protected/locked/blacklisted interaction, missing permission, or active cooldown
+  prevents container sorting and does not fall through to personal-inventory sorting.
+- `cleaningItem.openEvent` stays loadable and configurable but has no sorting behavior in this fork.
+- Keep the plugin name, data folder, command and permission names, and legacy config keys stable.
+- `updateMessage` defaults to false; when disabled the plugin makes no network request.
+
+## Native defaults and privacy
+
+- Keep sorting on the existing `InventorySorter`/`SortingEvent` path and the Paper API already in
+  use; do not add wrappers or dependencies for their own sake.
+- This is a **public** repository: never add host paths, usernames, IPs, seeds, world coordinates,
+  server or instance IDs, logs, config dumps, backups, or secrets.
+- Exact deploy pins (source commit + jar SHA-256) live in the private Awepeeps-Minecraft-Deployment
+  repository, never here.
