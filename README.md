@@ -20,6 +20,13 @@ Run `automation/build-chestcleaner.sh` from this repository. It uses the same di
 
 The reproducible plugin artifact is `target/chestcleaner-2.4.5-awepeeps.2.jar`.
 
+## Repository docs
+
+- [AGENTS.md](AGENTS.md) — repository-wide rules for AI coding agents.
+- [.agents/skills/awepeeps-chestcleaner-build-review/SKILL.md](.agents/skills/awepeeps-chestcleaner-build-review/SKILL.md) — reproducible local build and review workflow.
+- [RELEASING.md](RELEASING.md) — release and hash-pinning steps.
+- [docs/maintenance.md](docs/maintenance.md) — build, release identity, and network behavior notes.
+
 ## Upstream credits and license
 
 ChestCleaner was created by Tom Hauschild (`tom2208`) with contributions from `leanNiki`. This fork retains the upstream GNU General Public License version 3.0; see [LICENSE](LICENSE). Upstream history and the original documentation are available at the repository linked above.
