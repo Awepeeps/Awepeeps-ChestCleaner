@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [2.4.5-awepeeps.3]
+
+### Added
+- New `interaction-cooldown-ms` config option (default `750`, `0` disables) that debounces repeated
+  player interactions per player and per action kind. Bedrock clients (Switch and other consoles via
+  Geyser/Floodgate) can send a single press as two interaction or click events, which previously
+  sorted a container, sorted the player inventory, or ran the click-sort hotkey twice. Refill and
+  sort-on-close are not debounced: they are not toggles, and debouncing close-sort would skip a
+  second chest closed within the window. Values outside `0-5000` fall back to the default and log one warning.
+
 ## [2.4.3]
 
 ### Changed
