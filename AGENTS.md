@@ -18,7 +18,7 @@ attribution and `LICENSE` intact.
 
 - Build and test: `mvn --batch-mode --no-transfer-progress clean verify` (JDK 25).
 - Reproducible containerized build: `bash automation/build-chestcleaner.sh`.
-- Output jar: `target/chestcleaner-2.4.5-awepeeps.2.jar`.
+- Output jar: `target/chestcleaner-2.4.5-awepeeps.3.jar`.
 - Open changes as a pull request against `main`; CI runs `clean verify` twice and compares the jar bytes.
 
 ## Interaction policy (must be preserved)

@@ -5,6 +5,7 @@ import chestcleaner.config.serializable.ListCategory;
 import chestcleaner.config.serializable.MasterCategory;
 import chestcleaner.config.serializable.WordCategory;
 import chestcleaner.cooldown.CMRegistry;
+import chestcleaner.main.ChestCleaner;
 import chestcleaner.sorting.SortingPattern;
 import chestcleaner.sorting.categorizer.Categorizer;
 import chestcleaner.sorting.categorizer.ListCategoryCategorizer;
@@ -20,13 +21,18 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class PluginConfigManager {
 
+	static final int INTERACTION_COOLDOWN_DEFAULT_MS = 750;
+	static final int INTERACTION_COOLDOWN_MAX_MS = 5000;
+
 	private static List<Material> blacklistStacking = null;
 	private static List<Material> blacklistInventory = null;
 	private static List<Material> blacklistAutorefill = null;
+	private static boolean interactionCooldownWarningLogged = false;
 
 	private PluginConfigManager() {}
 
@@ -153,6 +159,41 @@ public class PluginConfigManager {
 
 	public static void setCooldown(int time, CMRegistry.CMIdentifier id) {
 		PluginConfig.setIntoConfig(PluginConfig.ConfigPath.COOLDOWN_TIME.getPath().concat(".").concat(id.toString()), time);
+	}
+
+	/**
+	 * The per-player interaction debounce window in milliseconds. It absorbs the
+	 * duplicate interaction events some Bedrock clients send for a single press.
+	 * {@code 0} disables the debounce. Values outside {@code 0..5000} fall back to
+	 * {@link #INTERACTION_COOLDOWN_DEFAULT_MS} and log a single warning.
+	 *
+	 * @return the configured window, or the default when the configured value is invalid.
+	 */
+	public static int getInteractionCooldownMillis() {
+		int value = PluginConfig.getConfig().getInt(
+				PluginConfig.ConfigPath.INTERACTION_COOLDOWN_MS.getPath(), INTERACTION_COOLDOWN_DEFAULT_MS);
+		if (!isValidInteractionCooldown(value)) {
+			warnInvalidInteractionCooldown(value);
+			return INTERACTION_COOLDOWN_DEFAULT_MS;
+		}
+		return value;
+	}
+
+	static boolean isValidInteractionCooldown(int value) {
+		return value >= 0 && value <= INTERACTION_COOLDOWN_MAX_MS;
+	}
+
+	private static void warnInvalidInteractionCooldown(int value) {
+		if (interactionCooldownWarningLogged) {
+			return;
+		}
+		interactionCooldownWarningLogged = true;
+
+		Logger logger = ChestCleaner.main == null ? null : ChestCleaner.main.getLogger();
+		if (logger != null) {
+			logger.warning("interaction-cooldown-ms must be between 0 and " + INTERACTION_COOLDOWN_MAX_MS
+					+ " but was " + value + "; using the default of " + INTERACTION_COOLDOWN_DEFAULT_MS + " ms.");
+		}
 	}
 
 	public static List<String> getCategoryOrder() {

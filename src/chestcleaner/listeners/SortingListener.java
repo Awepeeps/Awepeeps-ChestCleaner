@@ -1,6 +1,7 @@
 package chestcleaner.listeners;
 
 import chestcleaner.cooldown.CMRegistry;
+import chestcleaner.cooldown.InteractionCooldown;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.EventPriority;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -61,6 +63,12 @@ public class SortingListener implements org.bukkit.event.Listener {
                     if (CMRegistry.isOnCooldown(CMRegistry.CMIdentifier.SORTING, player)) return;
                     if (PluginConfigManager.getBlacklistInventory().contains(clickedBlock.getType())) return;
 
+                    // A Bedrock double event would otherwise sort the container twice.
+                    if (isDuplicateInteraction(player, InteractionCooldown.ActionKind.CONTAINER_SORT)) {
+                        e.setCancelled(true);
+                        return;
+                    }
+
                     if (InventorySorter.sortPlayerBlock(clickedBlock, player)) {
                         damageItem(player);
                         InventorySorter.playSortingSound(player);
@@ -70,9 +78,16 @@ public class SortingListener implements org.bukkit.event.Listener {
                     return;
                 }
 
-                if (isPlayerAllowedToCleanOwnInv(player) && SortingUtils.sortPlayerInvWithEffects(player)) {
-                    damageItem(player);
-                    e.setCancelled(true);
+                if (isPlayerAllowedToCleanOwnInv(player)) {
+                    if (isDuplicateInteraction(player, InteractionCooldown.ActionKind.INVENTORY_SORT)) {
+                        e.setCancelled(true);
+                        return;
+                    }
+
+                    if (SortingUtils.sortPlayerInvWithEffects(player)) {
+                        damageItem(player);
+                        e.setCancelled(true);
+                    }
                 }
             }
         }
@@ -92,6 +107,7 @@ public class SortingListener implements org.bukkit.event.Listener {
             Player player = (Player) e.getPlayer();
 
             if (PlayerDataManager.isAutoSort(player)) {
+                // The close event cannot be cancelled, so a duplicate just skips the sort.
                 SortingUtils.sortInventoryWithEffects(e.getInventory(), player);
             }
         }
@@ -104,7 +120,8 @@ public class SortingListener implements org.bukkit.event.Listener {
                 if (e.getSlot() == -999) {
                     if (e.getCurrentItem() == null) {
                         Player player = Bukkit.getServer().getPlayer(e.getWhoClicked().getName());
-                        if (PlayerDataManager.isClickSort(player)) {
+                        if (PlayerDataManager.isClickSort(player)
+                                && !isDuplicateInteraction(player, InteractionCooldown.ActionKind.CLICK_SORT)) {
                             sortInventoryOnClick(player, e);
                         }
                         e.setCancelled(true);
@@ -116,6 +133,21 @@ public class SortingListener implements org.bukkit.event.Listener {
 
     private boolean isNewClick(InventoryClickEvent e){
         return e.getClick().equals(ClickType.RIGHT) && e.getCurrentItem() == null;
+    }
+
+    /**
+     * Reports whether the player repeated the same action inside the configured
+     * interaction debounce window, which happens when a Bedrock client sends one press
+     * as two events. The accepted interaction is recorded on the first call.
+     */
+    private static boolean isDuplicateInteraction(Player player, InteractionCooldown.ActionKind kind) {
+        return InteractionCooldown.shared().isDuplicate(player.getUniqueId(), kind);
+    }
+
+    /** Drops the debounce state of a player who leaves, so it cannot leak. */
+    @EventHandler
+    private void onQuit(PlayerQuitEvent e) {
+        InteractionCooldown.shared().clear(e.getPlayer().getUniqueId());
     }
 
     private void sortInventoryOnClick(Player player, InventoryClickEvent e) {

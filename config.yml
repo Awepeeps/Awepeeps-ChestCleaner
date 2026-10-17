@@ -1,4 +1,9 @@
 updateMessage: false
+# Window in milliseconds during which the same player action is ignored when it repeats.
+# Bedrock clients (Switch and other consoles, via Geyser/Floodgate) can send one press
+# as two interaction or click events, which would otherwise run a tap-triggered sort twice.
+# 0 disables the debounce. Valid range 0-5000; anything else falls back to 750.
+interaction-cooldown-ms: 750
 locale:
   lang: en
   country: GB

@@ -20,7 +20,7 @@ docker run --rm \
     cd "$build_dir"
     mvn --batch-mode --no-transfer-progress clean verify
     mkdir -p /workspace/target
-    cp target/chestcleaner-2.4.5-awepeeps.2.jar /workspace/target/
+    cp target/chestcleaner-2.4.5-awepeeps.3.jar /workspace/target/
   '
 
-printf 'Built %s\n' "$ROOT/target/chestcleaner-2.4.5-awepeeps.2.jar"
+printf 'Built %s\n' "$ROOT/target/chestcleaner-2.4.5-awepeeps.3.jar"

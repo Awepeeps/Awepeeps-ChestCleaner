@@ -140,6 +140,7 @@ public class PluginConfig {
 		BLACKLIST_AUTOREFILL("blacklist.autorefill"),
 		COOLDOWN_TIME("cooldown.time"),
 		COOLDOWN_ACTIVE("cooldown.active"),
+		INTERACTION_COOLDOWN_MS("interaction-cooldown-ms"),
 		UPDATE_CHECKER_ACTIVE("updateMessage"),
 		CATEGORIES_WORDS("categories.words"),
 		CATEGORIES_LISTS("categories.lists"),
