@@ -11,8 +11,10 @@ attribution and `LICENSE` intact.
 - Paper 26.3 / Java 25 plugin that sorts storage and player inventories with the cleaning item.
 - Sources: `src/chestcleaner/`; unit tests: `tests/chestcleaner/`.
 - Runtime resources (repository root): `plugin.yml`, `config.yml`, `ChestCleaner_*_*.properties`.
+  Only the four files for the current version (`ChestCleaner_2-4-5-awepeeps-3_*`) are packaged by `pom.xml`;
+  the older `ChestCleaner_2-4-3_*` / `ChestCleaner_2-4-5-awepeeps-1_*` files are kept as history and are not.
 - Reproducible build helper: `automation/build-chestcleaner.sh`. Release flow: [RELEASING.md](RELEASING.md);
-  build details: [docs/maintenance.md](docs/maintenance.md).
+  build details: [docs/maintenance.md](docs/maintenance.md); release notes: [CHANGELOG.md](CHANGELOG.md).
 
 ## Build and test
 
